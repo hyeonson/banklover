@@ -1,4 +1,4 @@
-a<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -860,7 +860,15 @@ a<!DOCTYPE html>
             // 현재 이미지 그리기
             const currentImg = playerImages[player.currentImage];
             if (currentImg && currentImg.complete && currentImg.naturalWidth > 0) {
+                // 투명도 보장을 위한 설정
+                ctx.save();
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
                 ctx.drawImage(currentImg, player.x, player.y, player.width, player.height);
+                
+                ctx.restore();
             } else {
                 // 이미지 로딩 중이거나 실패했을 때 기본 도형 표시
                 ctx.fillStyle = '#ffffff';
