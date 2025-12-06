@@ -346,21 +346,44 @@
         #controls {
             position: absolute;
             bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 15;
+            padding: 0 10px;
+        }
+        
+        .control-center {
             display: grid;
-            grid-template-columns: 60px 60px 60px;
+            grid-template-columns: 60px 60px;
             grid-template-rows: 60px 60px;
             gap: 10px;
-            z-index: 15;
+        }
+        
+        .control-side {
+            position: absolute;
+            bottom: 0;
+        }
+        
+        #leftBtn {
+            left: 10px;
+        }
+        
+        #rightBtn {
+            right: 10px;
         }
         
         @media (max-width: 480px) {
             #controls {
-                grid-template-columns: 50px 50px 50px;
+                bottom: 50px;
+            }
+            
+            .control-center {
+                grid-template-columns: 50px 50px;
                 grid-template-rows: 50px 50px;
                 gap: 8px;
-                bottom: 50px;
             }
         }
         
@@ -378,11 +401,15 @@
             align-items: center;
             justify-content: center;
             -webkit-tap-highlight-color: transparent;
+            width: 60px;
+            height: 60px;
         }
         
         @media (max-width: 480px) {
             .control-btn {
                 font-size: 16px;
+                width: 50px;
+                height: 50px;
             }
         }
         
@@ -496,10 +523,12 @@
             <button id="startBtn">게임 시작</button>
         </div>
         <div id="controls">
-            <button class="control-btn" id="upBtn">입금</button>
-            <button class="control-btn" id="leftBtn">←</button>
-            <button class="control-btn" id="downBtn">출금</button>
-            <button class="control-btn" id="rightBtn">→</button>
+            <button class="control-btn control-side" id="leftBtn">←</button>
+            <div class="control-center">
+                <button class="control-btn" id="upBtn">입금</button>
+                <button class="control-btn" id="downBtn">출금</button>
+            </div>
+            <button class="control-btn control-side" id="rightBtn">→</button>
         </div>
         <div id="instructions">키보드 방향키 또는 화면 버튼 사용</div>
         <div id="gameOver">
@@ -766,10 +795,122 @@
 
         // 플레이어 그리기
         function drawPlayer() {
-            ctx.fillStyle = '#3498db';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(player.x + 10, player.y + 10, 20, 20);
+            const centerX = player.x + player.width / 2;
+            const centerY = player.y + player.height / 2;
+            
+            // 곰 몸통 (큰 타원형)
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 8, 16, 20, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 곰 머리 (큰 원형)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 8, 17, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 왼쪽 귀 (둥근 귀)
+            ctx.beginPath();
+            ctx.arc(centerX - 12, centerY - 18, 7, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 오른쪽 귀 (둥근 귀)
+            ctx.beginPath();
+            ctx.arc(centerX + 12, centerY - 18, 7, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 왼쪽 팔 (긴 타원)
+            ctx.beginPath();
+            ctx.ellipse(centerX - 18, centerY + 10, 6, 12, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 오른쪽 팔 (긴 타원)
+            ctx.beginPath();
+            ctx.ellipse(centerX + 18, centerY + 10, 6, 12, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 왼쪽 다리
+            ctx.beginPath();
+            ctx.ellipse(centerX - 7, centerY + 26, 5, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 오른쪽 다리
+            ctx.beginPath();
+            ctx.ellipse(centerX + 7, centerY + 26, 5, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // 볼 (연한 하늘색, 더 크게)
+            ctx.fillStyle = 'rgba(173, 216, 230, 0.6)';
+            ctx.beginPath();
+            ctx.arc(centerX - 13, centerY - 5, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX + 13, centerY - 5, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 왼쪽 눈
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(centerX - 6, centerY - 10, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 오른쪽 눈
+            ctx.beginPath();
+            ctx.arc(centerX + 6, centerY - 10, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 코 (더 크고 둥글게)
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY - 4, 4, 3.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 입 (더 큰 미소)
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 2, 5, 0.3, Math.PI - 0.3);
+            ctx.stroke();
+            
+            // 파란 리본/스카프
+            ctx.fillStyle = '#0052cc';
+            ctx.beginPath();
+            // 리본 중앙
+            ctx.ellipse(centerX, centerY + 5, 10, 3, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 리본 매듭 (왼쪽)
+            ctx.beginPath();
+            ctx.moveTo(centerX - 4, centerY + 5);
+            ctx.lineTo(centerX - 10, centerY + 2);
+            ctx.lineTo(centerX - 8, centerY + 8);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 리본 매듭 (오른쪽)
+            ctx.beginPath();
+            ctx.moveTo(centerX + 4, centerY + 5);
+            ctx.lineTo(centerX + 10, centerY + 2);
+            ctx.lineTo(centerX + 8, centerY + 8);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 리본 윤곽선
+            ctx.strokeStyle = '#003d99';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 5, 10, 3, 0, 0, Math.PI * 2);
+            ctx.stroke();
         }
 
         // 비트코인 그리기
@@ -801,11 +942,11 @@
             }
         }
 
-        // 순위 표시 (잔고 기준)
+        // 순위 표시 (잔고 기준, 3위까지만)
         function showLeaderboard(currentScore) {
             scores.push(currentScore);
             scores.sort((a, b) => b.cash - a.cash);
-            scores = scores.slice(0, 10);
+            scores = scores.slice(0, 3); // 3위까지만 저장
             localStorage.setItem('bitcoinScores', JSON.stringify(scores));
 
             const leaderboardDiv = document.getElementById('leaderboard');
