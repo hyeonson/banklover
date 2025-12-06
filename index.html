@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -596,10 +596,10 @@
             console.error('Failed to load down image');
         };
         
-        // 이미지 경로 - 상대 경로로 변경 (images 폴더가 있다면)
-        playerImages.normal.src = './images/sol.jpg';
-        playerImages.up.src = './images/sol_up.jpg';
-        playerImages.down.src = './images/sol_down.jpg';
+        // 이미지 경로 - png 확장자로 변경 (투명 배경 지원)
+        playerImages.normal.src = './images/sol.png';
+        playerImages.up.src = './images/sol_up.png';
+        playerImages.down.src = './images/sol_down.png';
         
         // 캔버스 크기를 컨테이너에 맞게 조정
         function resizeCanvas() {
