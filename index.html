@@ -57,6 +57,7 @@
             display: block;
             width: 100%;
             height: 100%;
+            background: transparent;
         }
         
         #hud {
@@ -957,6 +958,7 @@
 
         // 게임 루프
         function gameLoop() {
+            // 배경을 투명하게 지우기
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // 게임이 시작되지 않았으면 플레이어만 그리기
